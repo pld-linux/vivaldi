@@ -1,7 +1,7 @@
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.252.3
-Release:	0.3
+Release:	0.4
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
@@ -47,6 +47,22 @@ innovative ones.
 
 The browser is updated weekly and has gained popularity since the
 launch of its first technical preview.
+
+%package l10n
+Summary:	%{name} language packages
+Group:		I18n
+Requires:	%{name} = %{version}-%{release}
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
+
+%description l10n
+This package contains language packages for 53 languages:
+
+am, ar, bg, bn, ca, cs, da, de, el, en-GB, en-US, es-419, es, et, fa,
+fil, fi, fr, gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr,
+ms, nb, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, sw, ta, te, th,
+tr, uk, vi, zh-CN, zh-TW.
 
 %prep
 %setup -qcT
@@ -128,7 +144,7 @@ if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
@@ -155,3 +171,6 @@ fi
 %attr(755,root,root) %{_libdir}/%{name}/%{name}-bin
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/%{name}-sandbox
+
+%files l10n -f %{name}.lang
+%defattr(644,root,root,755)
