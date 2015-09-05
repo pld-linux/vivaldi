@@ -13,6 +13,9 @@ NoSource:	1
 URL:		https://vivaldi.com/
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires:	desktop-file-utils
+Requires:	gtk-update-icon-cache
+Requires:	hicolor-icon-theme
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -47,13 +50,77 @@ tar xf data.tar.xz && rm data.tar.xz
 version=$(awk '/Version:/{print $2}' control)
 test $version = %{version}-1
 
-%build
+mv opt/%{name}-snapshot %{name}
+mv %{name}/%{name}{-snapshot,}
+
+sed -e 's|vivaldi-snapshot|vivaldi|g' \
+		usr/share/applications/%{name}-snapshot.desktop \
+		usr/share/xfce4/helpers/%{name}-snapshot.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}/{locales,resources} \
+	$RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir}} \
+	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/{native-messaging-hosts,policies/managed}
+
+cd %{name}
+cp -a locales resources $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -p *.pak *.bin *.dat $RPM_BUILD_ROOT%{_libdir}/%{name}
+ln -s %{_datadir}/%{name}/locales $RPM_BUILD_ROOT%{_libdir}/%{name}/locales
+ln -s %{_datadir}/%{name}/resources $RPM_BUILD_ROOT%{_libdir}/%{name}/resources
+install -p %{name} $RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}
+install -p %{name}-sandbox $RPM_BUILD_ROOT%{_libdir}/%{name}
+ln -s %{_libdir}/%{name}/%{name} $RPM_BUILD_ROOT%{_bindir}
+
+install_icons() {
+	set +x
+	for icon in product_logo_[0-9]*.png; do
+		size=${icon##product_logo_}
+		size=${size%.png}
+
+		# this will skip non-numeric (22_mono_invert, 22_mono)
+		dir=%{_iconsdir}/hicolor/${size}x${size}/apps
+		test -d "$dir" || continue
+
+		install -d $RPM_BUILD_ROOT$dir
+		cp -p $icon $RPM_BUILD_ROOT$dir/%{name}.png
+	done
+}
+install_icons
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%update_icon_cache hicolor
+%update_desktop_database
+
+%postun
+if [ "$1" = 0 ]; then
+	%update_icon_cache hicolor
+	%update_desktop_database
+fi
+
 %files
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/%{name}
+%{_iconsdir}/hicolor/*/apps/%{name}.png
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/resources
+%{_datadir}/%{name}/resources/%{name}
+%{_datadir}/%{name}/locales
+
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/icudtl.dat
+%{_libdir}/%{name}/natives_blob.bin
+%{_libdir}/%{name}/snapshot_blob.bin
+%{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/%{name}*.pak
+%{_libdir}/%{name}/locales
+%{_libdir}/%{name}/resources
+%dir %{_libdir}/%{name}/plugins
+
+%attr(755,root,root) %{_libdir}/%{name}/%{name}
+# These unique permissions are intentional and necessary for the sandboxing
+%attr(4555,root,root) %{_libdir}/%{name}/%{name}-sandbox
