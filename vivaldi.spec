@@ -11,6 +11,7 @@ Source1:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_amd
 # NoSource1-md5:	b18994a388c83b98c7ccbb1755de103d
 NoSource:	1
 URL:		https://vivaldi.com/
+BuildRequires:	hicolor-icon-theme
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	desktop-file-utils
@@ -52,19 +53,13 @@ test $version = %{version}-1
 
 mv opt/%{name}-snapshot/* .
 mv %{name}{-snapshot,}
-
-sed -e 's|vivaldi-snapshot|vivaldi|g' \
-		usr/share/applications/%{name}-snapshot.desktop \
-		usr/share/xfce4/helpers/%{name}-snapshot.desktop
-
 mv usr/share/applications/vivaldi-snapshot.desktop %{name}.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}/{locales,resources} \
-	$RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir}} \
-	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/{native-messaging-hosts,policies/managed}
+	$RPM_BUILD_ROOT{%{_bindir},%{_desktopdir}} \
 
 cp -a locales resources $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -p *.pak *.bin *.dat $RPM_BUILD_ROOT%{_libdir}/%{name}
