@@ -27,6 +27,9 @@ Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_enable_debug_packages	0
+%define		no_install_post_strip	1
+
 %description
 Vivaldi is a freeware web browser developed by Vivaldi Technologies, a
 company founded by former Opera Software co-founder and CEO Jon
