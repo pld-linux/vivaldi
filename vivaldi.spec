@@ -1,14 +1,14 @@
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
-Version:	1.0.252.3
-Release:	0.4
+Version:	1.0.264.3
+Release:	0.1
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
-# NoSource0-md5:	07d29d385e3c54fd5a7f79a2d8224bf2
+# NoSource0-md5:	1a573721c1e50a8111972de82325aa60
 NoSource:	0
 Source1:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_amd64.deb
-# NoSource1-md5:	b18994a388c83b98c7ccbb1755de103d
+# NoSource1-md5:	a0c890ed2701dfcb89e8bc2f226afcc3
 NoSource:	1
 Source2:	find-lang.sh
 Patch0:		bin.patch
