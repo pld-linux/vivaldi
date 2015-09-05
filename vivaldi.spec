@@ -1,7 +1,7 @@
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.252.3
-Release:	0.1
+Release:	0.2
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
@@ -78,7 +78,8 @@ cp -a locales resources $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -p *.pak *.bin *.dat $RPM_BUILD_ROOT%{_libdir}/%{name}
 ln -s %{_datadir}/%{name}/locales $RPM_BUILD_ROOT%{_libdir}/%{name}/locales
 ln -s %{_datadir}/%{name}/resources $RPM_BUILD_ROOT%{_libdir}/%{name}/resources
-install -p %{name} $RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}
+install -p %{name} $RPM_BUILD_ROOT%{_libdir}/%{name}
+install -p %{name}-bin $RPM_BUILD_ROOT%{_libdir}/%{name}
 install -p %{name}-sandbox $RPM_BUILD_ROOT%{_libdir}/%{name}
 ln -s %{_libdir}/%{name}/%{name} $RPM_BUILD_ROOT%{_bindir}
 cp -p %{name}.desktop $RPM_BUILD_ROOT%{_desktopdir}
@@ -140,5 +141,6 @@ fi
 %dir %{_libdir}/%{name}/plugins
 
 %attr(755,root,root) %{_libdir}/%{name}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/%{name}-bin
 # These unique permissions are intentional and necessary for the sandboxing
 %attr(4555,root,root) %{_libdir}/%{name}/%{name}-sandbox
