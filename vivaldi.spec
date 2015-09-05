@@ -17,6 +17,7 @@ BuildRequires:	hicolor-icon-theme
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	desktop-file-utils
+Requires:	grep
 Requires:	gtk-update-icon-cache
 Requires:	hicolor-icon-theme
 ExclusiveArch:	%{ix86} %{x8664}

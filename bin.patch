@@ -1,4 +1,4 @@
---- vivaldi-1.0.252.3/vivaldi~	2015-08-21 05:26:28.000000000 +0300
+--- vivaldi-1.0.252.3/vivaldi	2015-09-06 01:01:12.612961576 +0300
 +++ vivaldi-1.0.252.3/vivaldi	2015-09-06 00:56:58.047117862 +0300
 @@ -60,9 +60,9 @@
  
@@ -13,7 +13,20 @@
        --enable-logging=stderr --log-level=0
    fi
  fi
-@@ -94,12 +94,12 @@
+@@ -73,7 +73,11 @@
+ exec > >(exec cat)
+ exec 2> >(exec cat >&2)
+ 
+-if [ -f "/opt/google/chrome/PepperFlash/libpepflashplayer.so" ]; then
++if [ -f "/usr/lib/browser-plugins/PepperFlash/libpepflashplayer.so" ]; then
++  FLASH_PATH="/usr/lib/browser-plugins/PepperFlash/libpepflashplayer.so" # pld 32-bit
++elif [ -f "/usr/lib64/browser-plugins/PepperFlash/libpepflashplayer.so" ]; then
++  FLASH_PATH="/usr/lib64/browser-plugins/PepperFlash/libpepflashplayer.so" # pld 64-bit
++elif [ -f "/opt/google/chrome/PepperFlash/libpepflashplayer.so" ]; then
+   FLASH_PATH="/opt/google/chrome/PepperFlash/libpepflashplayer.so" # google
+ elif [ -f "/usr/lib/pepperflashplugin-nonfree/libpepflashplayer.so" ]; then
+   FLASH_PATH="/usr/lib/pepperflashplugin-nonfree/libpepflashplayer.so" # debian/ubuntu
+@@ -90,12 +94,12 @@
  # overrides the default.
  if [[ -n "$CHROME_USER_DATA_DIR" ]]; then
    # Note: exec -a below is a bashism.
