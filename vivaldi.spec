@@ -50,12 +50,14 @@ tar xf data.tar.xz && rm data.tar.xz
 version=$(awk '/Version:/{print $2}' control)
 test $version = %{version}-1
 
-mv opt/%{name}-snapshot %{name}
-mv %{name}/%{name}{-snapshot,}
+mv opt/%{name}-snapshot/* .
+mv %{name}{-snapshot,}
 
 sed -e 's|vivaldi-snapshot|vivaldi|g' \
 		usr/share/applications/%{name}-snapshot.desktop \
 		usr/share/xfce4/helpers/%{name}-snapshot.desktop
+
+mv usr/share/applications/vivaldi-snapshot.desktop %{name}.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -64,7 +66,6 @@ install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins \
 	$RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir}} \
 	$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/{native-messaging-hosts,policies/managed}
 
-cd %{name}
 cp -a locales resources $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -p *.pak *.bin *.dat $RPM_BUILD_ROOT%{_libdir}/%{name}
 ln -s %{_datadir}/%{name}/locales $RPM_BUILD_ROOT%{_libdir}/%{name}/locales
@@ -72,6 +73,7 @@ ln -s %{_datadir}/%{name}/resources $RPM_BUILD_ROOT%{_libdir}/%{name}/resources
 install -p %{name} $RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}
 install -p %{name}-sandbox $RPM_BUILD_ROOT%{_libdir}/%{name}
 ln -s %{_libdir}/%{name}/%{name} $RPM_BUILD_ROOT%{_bindir}
+cp -p %{name}.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
 install_icons() {
 	set +x
@@ -105,6 +107,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/%{name}
+%{_desktopdir}/*.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/resources
