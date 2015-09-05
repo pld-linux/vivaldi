@@ -20,6 +20,8 @@ Requires:	desktop-file-utils
 Requires:	grep
 Requires:	gtk-update-icon-cache
 Requires:	hicolor-icon-theme
+Requires:	xdg-utils >= 1.0.2-4
+Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
