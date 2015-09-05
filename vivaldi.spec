@@ -10,6 +10,8 @@ NoSource:	0
 Source1:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_amd64.deb
 # NoSource1-md5:	b18994a388c83b98c7ccbb1755de103d
 NoSource:	1
+Patch0:		bin.patch
+Patch1:		desktop.patch
 URL:		https://vivaldi.com/
 BuildRequires:	hicolor-icon-theme
 BuildRequires:	tar >= 1:1.22
@@ -54,6 +56,9 @@ test $version = %{version}-1
 mv opt/%{name}-snapshot/* .
 mv %{name}{-snapshot,}
 mv usr/share/applications/vivaldi-snapshot.desktop %{name}.desktop
+
+%patch0 -p1
+%patch1 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT

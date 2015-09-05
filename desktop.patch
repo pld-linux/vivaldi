@@ -1,0 +1,15 @@
+--- vivaldi-1.0.252.3/vivaldi.desktop~	2015-08-21 05:26:28.000000000 +0300
++++ vivaldi-1.0.252.3/vivaldi.desktop	2015-09-06 00:58:22.987958860 +0300
+@@ -105,9 +105,9 @@
+ Comment[zh_CN]=访问互联网
+ Comment[zh_HK]=連線到網際網路
+ Comment[zh_TW]=連線到網際網路
+-Exec=/usr/bin/vivaldi-snapshot %U
++Exec=/usr/bin/vivaldi %U
+ Terminal=false
+-Icon=vivaldi-snapshot
++Icon=vivaldi
+ Type=Application
+ Categories=Network;WebBrowser;
+-MimeType=text/html;text/xml;application/xhtml_xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;
++MimeType=text/html;text/xml;application/xhtml+xml;image/webp;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;

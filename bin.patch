@@ -1,0 +1,30 @@
+--- vivaldi-1.0.252.3/vivaldi~	2015-08-21 05:26:28.000000000 +0300
++++ vivaldi-1.0.252.3/vivaldi	2015-09-06 00:56:58.047117862 +0300
+@@ -60,9 +60,9 @@
+ 
+ # Automagically migrate user data directory.
+ # TODO(phajdan.jr): Remove along with migration code in the browser for M33.
+-if [[ -n "${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi-snapshot" ]]; then
+-  if [[ ! -d "${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi-snapshot" ]]; then
+-    "$HERE/vivaldi-bin" "--migrate-data-dir-for-sxs=${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi-snapshot" \
++if [[ -n "${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi" ]]; then
++  if [[ ! -d "${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi" ]]; then
++    "$HERE/vivaldi-bin" "--migrate-data-dir-for-sxs=${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi" \
+       --enable-logging=stderr --log-level=0
+   fi
+ fi
+@@ -94,12 +94,12 @@
+ # overrides the default.
+ if [[ -n "$CHROME_USER_DATA_DIR" ]]; then
+   # Note: exec -a below is a bashism.
+-  exec -a "$0" "$HERE/vivaldi-bin" --user-data-dir="${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi-snapshot" \
++  exec -a "$0" "$HERE/vivaldi-bin" --user-data-dir="${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi" \
+     --user-data-dir="$CHROME_USER_DATA_DIR" \
+     --ppapi-flash-path=$FLASH_PATH --ppapi-flash-version=$FLASH_VERSION \
+     "$@"
+ else
+-  exec -a "$0" "$HERE/vivaldi"-bin --user-data-dir="${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi-snapshot" \
++  exec -a "$0" "$HERE/vivaldi"-bin --user-data-dir="${XDG_CONFIG_HOME:-${HOME}/.config}/vivaldi" \
+     --ppapi-flash-path=$FLASH_PATH --ppapi-flash-version=$FLASH_VERSION \
+     "$@"
+ fi
