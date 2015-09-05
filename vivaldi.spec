@@ -14,8 +14,10 @@ Patch0:		bin.patch
 Patch1:		desktop.patch
 URL:		https://vivaldi.com/
 BuildRequires:	hicolor-icon-theme
+BuildRequires:	rpmbuild(macros) >= 1.364
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+Requires:	browser-plugins >= 2.0
 Requires:	desktop-file-utils
 Requires:	grep
 Requires:	gtk-update-icon-cache
@@ -94,21 +96,28 @@ install_icons() {
 }
 install_icons
 
+%browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins -b <<'EOF'
+EOF
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_icon_cache hicolor
 %update_desktop_database
+%update_browser_plugins
 
 %postun
 if [ "$1" = 0 ]; then
 	%update_icon_cache hicolor
 	%update_desktop_database
+	%update_browser_plugins
 fi
 
 %files
 %defattr(644,root,root,755)
+%{_browserpluginsconfdir}/browsers.d/%{name}.*
+%config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
 %attr(755,root,root) %{_bindir}/%{name}
 %{_desktopdir}/*.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
