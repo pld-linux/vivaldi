@@ -1,7 +1,7 @@
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.252.3
-Release:	0.2
+Release:	0.3
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
@@ -10,6 +10,7 @@ NoSource:	0
 Source1:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_amd64.deb
 # NoSource1-md5:	b18994a388c83b98c7ccbb1755de103d
 NoSource:	1
+Source2:	find-lang.sh
 Patch0:		bin.patch
 Patch1:		desktop.patch
 URL:		https://vivaldi.com/
@@ -26,6 +27,8 @@ Requires:	xdg-utils >= 1.0.2-4
 Provides:	wwwbrowser
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		find_lang	sh find-lang.sh %{buildroot}
 
 %define		_enable_debug_packages	0
 %define		no_install_post_strip	1
@@ -68,6 +71,8 @@ mv usr/share/applications/vivaldi-snapshot.desktop %{name}.desktop
 %patch0 -p1
 %patch1 -p1
 
+%{__sed} -e 's,@localedir@,%{_datadir}/%{name},' %{_sourcedir}/find-lang.sh > find-lang.sh
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins \
@@ -100,6 +105,11 @@ install_icons() {
 }
 install_icons
 
+# find locales
+%find_lang %{name}.lang
+# always package en-US
+%{__sed} -i -e '/en-US.pak/d' %{name}.lang
+
 %browser_plugins_add_browser %{name} -p %{_libdir}/%{name}/plugins -b <<'EOF'
 EOF
 
@@ -118,7 +128,7 @@ if [ "$1" = 0 ]; then
 	%update_browser_plugins
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %{_browserpluginsconfdir}/browsers.d/%{name}.*
 %config(noreplace) %verify(not md5 mtime size) %{_browserpluginsconfdir}/blacklist.d/%{name}.*.blacklist
@@ -128,7 +138,8 @@ fi
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/resources
 %{_datadir}/%{name}/resources/%{name}
-%{_datadir}/%{name}/locales
+%dir %{_datadir}/%{name}/locales
+%{_datadir}/%{name}/locales/en-US.pak
 
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/icudtl.dat
