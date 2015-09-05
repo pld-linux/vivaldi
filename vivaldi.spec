@@ -4,13 +4,15 @@ Version:	1.0.252.3
 Release:	0.1
 License:	Vivaldi
 Group:		X11/Applications/Networking
-Source0:	http://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
+Source0:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
 # NoSource0-md5:	07d29d385e3c54fd5a7f79a2d8224bf2
 NoSource:	0
-Source1:	http://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_amd64.deb
+Source1:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_amd64.deb
 # NoSource1-md5:	b18994a388c83b98c7ccbb1755de103d
 NoSource:	1
-URL:		http://vivaldi.com/
+URL:		https://vivaldi.com/
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -30,7 +32,20 @@ The browser is updated weekly and has gained popularity since the
 launch of its first technical preview.
 
 %prep
-%setup -q
+%setup -qcT
+%ifarch %{ix86}
+SOURCE=%{S:0}
+%endif
+%ifarch %{x8664}
+SOURCE=%{S:1}
+%endif
+
+ar x $SOURCE
+tar xf control.tar.gz && rm control.tar.gz
+tar xf data.tar.xz && rm data.tar.xz
+
+version=$(awk '/Version:/{print $2}' control)
+test $version = %{version}-1
 
 %build
 
