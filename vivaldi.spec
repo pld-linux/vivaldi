@@ -1,7 +1,7 @@
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.264.3
-Release:	0.1
+Release:	0.2
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/snapshot/%{name}-snapshot_%{version}-1_i386.deb
@@ -57,12 +57,12 @@ BuildArch:	noarch
 %endif
 
 %description l10n
-This package contains language packages for 53 languages:
+This package contains language packages for 52 languages:
 
-am, ar, bg, bn, ca, cs, da, de, el, en-GB, en-US, es-419, es, et, fa,
-fil, fi, fr, gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr,
-ms, nb, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, sw, ta, te, th,
-tr, uk, vi, zh-CN, zh-TW.
+am, ar, bg, bn, ca, cs, da, de, el, en-GB, es-419, es, et, fa, fi,
+fil, fr, gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr, ms,
+nb, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, sw, ta, te, th, tr,
+uk, vi, zh-CN, zh-TW.
 
 %prep
 %setup -qcT
