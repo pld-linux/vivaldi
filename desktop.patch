@@ -1,13 +1,13 @@
---- vivaldi-1.0.252.3/vivaldi.desktop~	2015-08-21 05:26:28.000000000 +0300
-+++ vivaldi-1.0.252.3/vivaldi.desktop	2015-09-06 00:58:22.987958860 +0300
+--- vivaldi-1.0.344.37/vivaldi.desktop~	2015-12-16 14:48:51.000000000 +0200
++++ vivaldi-1.0.344.37/vivaldi.desktop	2016-01-19 10:05:22.971946999 +0200
 @@ -105,9 +105,9 @@
  Comment[zh_CN]=访问互联网
  Comment[zh_HK]=連線到網際網路
  Comment[zh_TW]=連線到網際網路
--Exec=/usr/bin/vivaldi-snapshot %U
+-Exec=/usr/bin/vivaldi-beta %U
 +Exec=/usr/bin/vivaldi %U
  Terminal=false
--Icon=vivaldi-snapshot
+-Icon=vivaldi-beta
 +Icon=vivaldi
  Type=Application
  Categories=Network;WebBrowser;
