@@ -1,22 +1,24 @@
+# TODO
+# - error: vivaldi-1.0.344.37-0.1.x86_64: req libffmpeg.so()(64bit) not found
+
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.344.37
-Release:	0.1
+Release:	0.2
 License:	Vivaldi
 Group:		X11/Applications/Networking
-Source0:	https://vivaldi.com/download/stable/%{name}-beta_1.0.344.37-1_amd64.deb
-# NoSource0-md5:	1a573721c1e50a8111972de82325aa60
+Source0:	https://vivaldi.com/download/stable/%{name}-beta-%{version}-1.i386.rpm
+# NoSource0-md5:	2902231d0998c001d315d1e1ff817f66
 NoSource:	0
-Source1:	https://vivaldi.com/download/stable/%{name}-beta_1.0.344.37-1_amd64.deb
-# NoSource1-md5:	571fed995097dfb9d13e1d6a535e2c14
+Source1:	https://vivaldi.com/download/stable/%{name}-beta-%{version}-1.x86_64.rpm
+# NoSource1-md5:	f958a6df8a16a5ee3c003679b32d227d
 NoSource:	1
 Source2:	find-lang.sh
 Patch1:		desktop.patch
 URL:		https://vivaldi.com/
 BuildRequires:	hicolor-icon-theme
+BuildRequires:	rpm-utils
 BuildRequires:	rpmbuild(macros) >= 1.364
-BuildRequires:	tar >= 1:1.22
-BuildRequires:	xz
 Requires:	browser-plugins >= 2.0
 Requires:	desktop-file-utils
 Requires:	grep
@@ -72,12 +74,9 @@ SOURCE=%{S:0}
 SOURCE=%{S:1}
 %endif
 
-ar x $SOURCE
-tar xf control.tar.gz && rm control.tar.gz
-tar xf data.tar.xz && rm data.tar.xz
-
-version=$(awk '/Version:/{print $2}' control)
-test $version = %{version}-1
+version=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
+test v:$version = v:%{version}
+rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/%{name}-beta/* .
 mv %{name}{-beta,}
