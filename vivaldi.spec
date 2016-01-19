@@ -4,7 +4,7 @@
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.344.37
-Release:	0.2
+Release:	0.3
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/stable/%{name}-beta-%{version}-1.i386.rpm
@@ -94,6 +94,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/plugins \
 
 cp -a locales resources $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -p *.pak *.bin *.dat $RPM_BUILD_ROOT%{_libdir}/%{name}
+cp -a lib $RPM_BUILD_ROOT%{_libdir}/%{name}
 ln -s %{_datadir}/%{name}/locales $RPM_BUILD_ROOT%{_libdir}/%{name}/locales
 ln -s %{_datadir}/%{name}/resources $RPM_BUILD_ROOT%{_libdir}/%{name}/resources
 install -p %{name} $RPM_BUILD_ROOT%{_libdir}/%{name}
@@ -162,6 +163,8 @@ fi
 %{_libdir}/%{name}/%{name}*.pak
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/resources
+%dir %{_libdir}/%{name}/lib
+%attr(755,root,root) %{_libdir}/%{name}/lib/libffmpeg.so
 %dir %{_libdir}/%{name}/plugins
 
 %attr(755,root,root) %{_libdir}/%{name}/%{name}
