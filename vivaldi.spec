@@ -1,10 +1,7 @@
-# TODO
-# - error: vivaldi-1.0.344.37-0.1.x86_64: req libffmpeg.so()(64bit) not found
-
 Summary:	An advanced browser made with the power user in mind
 Name:		vivaldi
 Version:	1.0.344.37
-Release:	0.3
+Release:	1
 License:	Vivaldi
 Group:		X11/Applications/Networking
 Source0:	https://vivaldi.com/download/stable/%{name}-beta-%{version}-1.i386.rpm
