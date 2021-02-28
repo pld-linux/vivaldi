@@ -50,9 +50,7 @@ launch of its first technical preview.
 Summary:	%{name} language packages
 Group:		I18n
 Requires:	%{name} = %{version}-%{release}
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description l10n
 This package contains language packages for 52 languages:
